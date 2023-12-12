@@ -1,0 +1,303 @@
+// Implement various operations(traverse, insert, delete, searching, sorting) on an array//
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX_SIZE 1000 // Maximum array size
+
+int a[MAX_SIZE], n;
+
+void createArray();
+void displayArray();
+void insertionArray(int a[],int ele, int pos);
+void deletionArray(int a[],int position,int value);
+int LinearSearchArray(int a[], int target);
+void selectionSort(int a[],char order);
+void deletionArraybydata(a,value);
+
+int main()
+{
+    int choice, data, pos, ele,element, position,result,target,value;
+    char c;
+    while (1)
+    {
+        printf("\nArray Operations:\n\n");
+        printf("1. Create an array?\n");
+        printf("2. Insert into an array?\n");
+        printf("3. Delete from an array using position\n");
+        printf("4. Delete from an array using value\n");
+        printf("5. Display the Array\n");
+        printf("6.Linear Search in Array\n");
+        printf("7.Selection sort in Array\n");
+        printf("8.Exit\n");
+        printf("Enter your choice: ");
+
+        if (scanf("%d", &choice) != 1)
+        {
+            printf("\n*****Error! Please Enter an integer value ****** \n");
+            while (getchar() != '\n');
+            continue;
+        }
+
+        switch (choice)
+        {
+        case 1:
+
+            createArray();
+            break;
+
+        case 2:
+            printf("Enter the element to insert: ");
+            if (scanf("%d", &ele) != 1)
+            {
+                printf("\n*****Error! Please Enter an integer value ****** \n");
+                while (getchar() != '\n');
+                continue;
+            }
+            printf("Enter the position to insert: ");
+
+
+            if (scanf("%d", &pos) != 1)
+            {
+                printf("\n*****Error! Please Enter an integer value ****** \n");
+                while (getchar() != '\n');
+                continue;
+            }
+
+            insertionArray(a,ele, pos);
+            printf("Updated Array:\n");
+            displayArray();
+            break;
+
+        case 3:
+            printf("Enter the position to delete an element : ");
+            if (scanf("%d", &position) != 1)
+            {
+                printf("\n*****Error! Please Enter an integer value ****** \n");
+                while (getchar() != '\n');
+                continue;
+            }
+
+            deletionArraybypos(a,position);
+            printf("Updated Array:\n");
+            displayArray();
+            break;
+        case 4:
+            printf("Enter the value to delete an element : ");
+            if (scanf("%d", &value) != 1)
+            {
+                printf("\n*****Error! Please Enter an integer value ****** \n");
+                while (getchar() != '\n');
+                continue;
+            }
+
+            deletionArraybydata(a,value);
+            printf("Updated Array:\n");
+            displayArray();
+            break;
+
+        case 5:
+            displayArray();
+            break;
+
+        case 6:
+            printf("Enter an element to be found : ");
+
+            if (scanf("%d", &target) != 1)
+            {
+                printf("\n*****Error! Please Enter an integer value ****** \n");
+                while (getchar() != '\n');
+                continue;
+            }
+            int result=LinearSearchArray(a,target);
+            if (result != -1)
+            {
+                printf("Element %d found at index %d\n", target, result);
+            }
+            else
+            {
+                printf("Element %d not found in the array\n", target);
+            }
+            break;
+        case 7:
+            printf("Do you want in ascending order or descending order? Choose A/a for ascending and D/d for descending: ");
+            scanf(" %c", &c);
+            if (c == 'A' || c == 'a' || c == 'D' || c == 'd')
+            {
+                selectionSort(a, c);
+                printf("\nSorted Array:\n");
+                displayArray();
+            }
+            else
+            {
+                printf("\nWrong input! Only enter D/d or A/a.\n");
+            }
+            break;
+
+
+        case 8:
+            printf("Are you sure you want to exit program? (y/n) : ");
+            scanf(" %c", &c);
+            if (c == 'y' || c=='Y')
+                exit(0);
+            else if (c != 'n' || c!='N')
+                printf("\nInvalid Input!\n");
+            break;
+
+        default:
+            printf("Invalid choice. Please try again.\n");
+        }
+    }
+
+    return 0;
+}
+
+void createArray()
+{
+restart:
+    printf("How many elements do you want in your array?");
+    if (scanf("%d", &n) != 1)
+    {
+        printf("\n*****Error! Please Enter an integer value ****** \n");
+        while (getchar() != '\n');
+        goto restart;
+    }
+    printf("Enter the elements of your array:\n");
+    for (int i = 0; i < n; i++)
+    {
+        if (scanf("%d", &a[i]) != 1)
+        {
+            printf("\n*****Error! Please Enter an integer value ****** \n");
+            while (getchar() != '\n');
+            goto restart;
+        }
+    }
+}
+
+void displayArray()
+{
+    printf("Elements in the array are:\n");
+    for (int i = 0; i < n; i++)
+    {
+        printf("%d\n", a[i]);
+    }
+}
+
+void insertionArray(int a[],int ele,int pos)
+{
+    int capacity = MAX_SIZE;
+    if (n >= capacity)
+    {
+        printf("Array is full. Cannot insert.\n");
+        return;
+    }
+
+    if (pos < 1 || pos > n + 1)
+    {
+        printf("Invalid position to insert.\n");
+        return;
+    }
+
+    // Shift elements to make space for the new element
+    for (int i = n - 1; i >= pos - 1; i--)
+    {
+        a[i + 1] = a[i];
+    }
+
+    // Insert the new element at the specified position
+    a[pos - 1] = ele;
+
+    // Increment the size of the array
+    (n)++;
+}
+
+void deletionArraybypos(int a[],int position)
+{
+    // Check if the position is valid
+    if (position < 1 || position > n)
+    {
+        printf("Invalid position. Deletion failed.\n");
+        return;
+    }
+
+    // Shift elements to the left of the deleted element
+    for (int i = position - 1; i < n - 1; i++)
+    {
+        a[i] = a[i + 1];
+    }
+
+    // Decrement the size of the array
+    (n)--;
+}
+void deletionArraybydata(int a[],int value)
+{
+    int found = 0; // Flag to check if the element was found and deleted
+
+    // Find the index of the element to be deleted
+    for (int i = 0; i < n; i++)
+    {
+        if (a[i] == value)
+        {
+            found = 1; // Element found
+            // Shift elements to the left to fill the gap
+            for (int j = i; j < n - 1; j++)
+            {
+                a[j] = a[j + 1];
+            }
+            // Decrement the count of elements in the array
+            n--;
+            break; // Exit the loop after the first occurrence is deleted
+        }
+    }
+
+    if (found==1)
+    {
+        printf("Element %d deleted successfully.\n", value);
+    }
+    else
+    {
+        printf("Element %d not found in the array.\n", value);
+    }
+}
+
+
+
+
+int LinearSearchArray(int a[],int target)
+{
+    for (int i = 0; i < n; i++)
+    {
+        if (a[i] == target)
+        {
+            return i; // Element found, return its index
+        }
+    }
+    return -1; // Element not found, return -1
+}
+void selectionSort(int a[],char order)
+{
+    int i, j, temp;
+    for (i = 0; i < n - 1; i++)
+    {
+        int index = i;
+
+        for (j = i + 1; j < n; j++)
+        {
+            if ((order == 'A' || order == 'a') && a[j] < a[index])
+            {
+                index = j; // For ascending order
+            }
+            else if ((order == 'D' || order == 'd') && a[j] > a[index])
+            {
+                index = j; // For descending order
+            }
+
+        }
+
+        // Swap the found minimum/maximum element with the current element
+        if (index != i)
+        {
+            temp = a[i];
+            a[i] = a[index];
+            a[index] = temp;
+        }
+    }
+}
