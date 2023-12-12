@@ -1,0 +1,176 @@
+//Implement operations(push, pop) on a stack using arrays. Check the status of the stack wthether there  is underflow or overflow.//
+#include<stdio.h>
+#include<stdlib.h>
+#define MAX 1000
+int stack_arr[MAX],
+    top=-1;
+void push(int data)
+{
+    if(isFull())
+    {
+        printf("Oops ! Cannot Insert. Stack Overflow\n\n");
+    }
+    top=top+1;
+    stack_arr[top]=data;
+
+}
+int pop()
+{
+    int value=-1;
+    if(isEmpty())
+    {
+        printf("Stack is empty! Nothing to delete\n\n");
+    }
+    else
+    {
+        value=stack_arr[top];
+        top=top-1;
+    }
+    return value;
+}
+int isFull()
+{
+    if(top==MAX-1)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+int isEmpty()
+{
+    if(top==-1)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+void print()
+{
+    int i;
+    if(top==-1)
+    {
+        printf("Nothing to print.Your stack array is empty\n");
+    }
+    else
+    {
+        printf("Your Array Stack is:\n");
+        for(i=top; i>=0; i--)
+        {
+            printf("%d",stack_arr[i]);
+            printf("\n");
+        }
+    }
+}
+int main()
+{
+    int data,choice,m;
+    char ch;
+    while(1)
+    {
+        printf("1.Push operation on stack\n"
+               "2.Pop operation on stack\n"
+               "3.Check if Stack is Full\n"
+               "4.Check if stack is Empty\n"
+               "5.Print the Array Stack\n");
+        printf("Enter your choice:");
+        if(scanf("%d",&choice)!=1)
+        {
+            printf("\n***** Error!Please Enter a integer value ****** \n\n");
+            while (getchar() != '\n');
+            continue;
+        }
+        switch(choice)
+        {
+        case 1:
+            printf("Enter data to insert :");
+            if(scanf("%d",&data)!=1)
+            {
+                printf("\n******Please enter an integer value*****\n\n");
+                while(getchar()!='\n');
+                continue;
+            }
+            push(data);
+            printf("\n");
+            break;
+        case 2:
+            data=pop();
+            if(data==-1)
+            {
+                printf(" ");
+            }
+            else
+            {
+                printf("The deleted element is %d\n\n",data);
+            }
+            break;
+        case 3:
+            printf("Do you want to check if the stack is already full?(y/n):");
+            if(scanf(" %c",&ch)!=1)
+            {
+                printf("\n***** Error!Please Enter a character value ****** \n\n");
+                while (getchar() != '\n');
+                continue;
+            }
+
+            if(ch=='y' || ch=='Y')
+            {
+                m=isFull();
+                if(m==1)
+                    printf("Yes,stack is full\n\n");
+                else if(m==0)
+                    printf("No,The stack is not full\n\n");
+
+            }
+            else if(ch=='n' || ch=='N')
+            {
+                return;
+            }
+            else
+            {
+
+                printf("Wrong input ! Answer in only (y/n):\n\n");
+            }
+            break;
+        case 4:
+            printf("Do you want to check if the stack is empty ?(y/n)");
+            if(scanf(" %c",&ch)!=1)
+            {
+                printf("\n***** Error!Please Enter a character value ****** \n\n");
+                while (getchar() != '\n');
+                continue;
+            }
+
+            if(ch=='Y' || ch=='y')
+            {
+                m=isEmpty();
+                if(m==1)
+                    printf("Yes,stack is empty\n\n");
+                else
+                {
+                    printf("No,The stack is not empty\n\n");
+                }
+            }
+            else if(ch=='N' || ch=='n')
+            {
+                //do nothing
+            }
+            else
+                printf("Wrong input ! Answer in only y/n \n\n");
+            break;
+        case 5:
+            print();
+            break;
+        default:
+            printf("wrong input for choice ! Try again\n\n !");
+
+        }
+    }
+    return 0;
+}
